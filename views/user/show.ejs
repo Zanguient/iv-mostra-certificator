@@ -20,7 +20,9 @@
             <tr>
               <td><%= certificado.label %></td>
               <td>
-                <a href="/usuario/<%= user.cpf %>/certificados/<%= certificado.name %>.pdf">Baixar: <%= certificado.label %></a>
+                <a href="/usuario/<%= user.cpf %>/certificados/<%= certificado.name %>.pdf">
+                  <span class="glyphicon glyphicon-download"></span> Baixar: <%= certificado.label %>
+                </a>
               </td>
             </tr>
           <% }); %>
