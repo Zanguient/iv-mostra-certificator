@@ -16,7 +16,6 @@ module.exports = {
 
         if(userSalved) {
           var certificadosDisponiveis = [];
-          console.log(userSalved);
 
           // convert object to array
           res.view('user/show',{
