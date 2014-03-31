@@ -5,7 +5,7 @@
 **/
 
 var XLSX = require('xlsx');
-var fs = require('fs');
+var fs = require('fs-extra');
 var mv = require('mv');
 var uuid = require('node-uuid');
 
@@ -204,33 +204,38 @@ exports.saveFileToImport = function(){
 
   var filepath = sails.config.appPath + '/' + sails.config.paths.excelFilesToImport + '/';
 
-  fs.readdir(filepath, function (err, files) {
-    if (err) return sails.log.error(err);
+  // affter, check if the folder exists and if dont create
+  fs.mkdirp(filepath, function(err){
+    if(err) return sails.log.error(err);
 
-    files.forEach( function (file) {
-      ExcelService.parse(filepath + file,function(err, data){
+    fs.readdir(filepath, function (err, files) {
+      if (err) return sails.log.error(err);
 
-        var importData = {};
-        importData.length = data.length;
-        importData.filename = file;
-        importData.systemFilename = file;
-        importData.extension = 'xlsx';
-        importData.data = data;
-        importData.importToModel = 'User';
+      files.forEach( function (file) {
+        ExcelService.parse(filepath + file,function(err, data){
 
-        ImportData.create(importData).done(function(error, SalvedImportData){
-          if(error) sails.log.error('Error on Excel service save importData:', error);
+          var importData = {};
+          importData.length = data.length;
+          importData.filename = file;
+          importData.systemFilename = file;
+          importData.extension = 'xlsx';
+          importData.data = data;
+          importData.importToModel = 'User';
 
-          if(SalvedImportData){
-            ExcelService.archiveFile(SalvedImportData ,function(err){
-              if(err) return sails.log.error(err);
-              sails.log.info('File salved and archived');
+          ImportData.create(importData).done(function(error, SalvedImportData){
+            if(error) sails.log.error('Error on Excel service save importData:', error);
 
-            });
-          }
+            if(SalvedImportData){
+              ExcelService.archiveFile(SalvedImportData ,function(err){
+                if(err) return sails.log.error(err);
+                sails.log.info('File salved and archived');
+
+              });
+            }
+
+          });
 
         });
-
       });
     });
   });
