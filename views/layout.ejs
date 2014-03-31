@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>IV Mostra | Gerador de certificados</title>
+
+    <!-- Viewport mobile tag for sensible mobile support -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <!--STYLES-->
+    <link rel="stylesheet" href="/styles/styles/importer.css">
+    <!--STYLES END-->
+  </head>
+
+  <body>
+
+    <%- include ./partials/navbar.ejs %>
+
+    <div class="container">
+
+      <%- include ./partials/header.ejs %>
+
+      <%- body %>
+
+      <%- include ./partials/footer.ejs %>
+
+    </div>
+
+
+    <!--SCRIPTS-->
+    <script src="/js/socket.io.js"></script>
+    <script src="/js/sails.io.js"></script>
+    <script src="/js/connection.example.js"></script>
+    <script src="/bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="/bower_components/angular/angular.min.js"></script>
+    <script src="/bower_components/cpf_cnpj/build/cpf.min.js"></script>
+    <script src="/bower_components/angular-ui-utils/ui-utils.min.js"></script>
+    <script src="/bower_components/ng-cpf-cnpj/lib/ngCpfCnpj.js"></script>
+    <script src="/angularjs/application.js"></script>
+    <!--SCRIPTS END-->
+  </body>
+</html>

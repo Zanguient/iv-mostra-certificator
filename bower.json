@@ -1,0 +1,25 @@
+{
+  "name": "Certificator",
+  "version": "0.0.1",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "components",
+    "bower_components",
+    "test",
+    "tests",
+    "assets/bower_components"
+  ],
+  "dependencies": {
+    "bootstrap": "~3.0.3",
+    "ng-cpf-cnpj": "*",
+    "angular-bootstrap": "~0.9.0",
+    "angular": "~1.2.15",
+    "angular-ui-utils": "bower"
+  },
+  "license": "MIT",
+  "authors": [
+    "Alberto Souza <alberto.souza.99@gmail.com>"
+  ],
+  "private": true
+}

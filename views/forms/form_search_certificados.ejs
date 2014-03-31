@@ -1,0 +1,31 @@
+<form data-ng-controller="buscarCertificados" id="buscarCertificados" name="buscarCertificados" class="bs-component" action="/buscar-certificados/" method="post" data-ng-submit="submit($event)">
+  <div class="form-group">
+    <label class="cpf-label alert alert-info control-label">Digite o número do CPF no campo abaixo para exibir os certificados</label>
+    <div class="input-group cpf-input-group">
+      <span class="input-group-addon">
+        <span class="form-feedback-icon"></span>
+      </span>
+
+      <input id="cpf"  name="cpf" autofocus ng-model="cpf" ng-cpf ui-mask="999.999.999-99"  type="text" class="form-control">
+      <span class="input-group-btn">
+        <button class="btn btn-default" type="submit">Buscar</button>
+      </span>
+    </div>
+  </div>
+  <div class="form-group">
+    <div>
+      <div class="bs-component" >
+        <div class="alert alert-warning show-form-error">
+          <strong>CPF inválido!</strong> digite o CFP novamente
+        </div>
+
+        <div class="alert alert-success show-form-success">
+          <strong>Ok, agora é só clicar no botão "Buscar"!</strong>
+        </div>
+
+
+      </div>
+    </div>
+  </div>
+
+</form>
