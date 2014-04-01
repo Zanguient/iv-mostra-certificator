@@ -43,6 +43,10 @@ module.exports = {
 
     importToModel: {
       type: 'string'
+    },
+
+    certificadoTipo: {
+      type: 'string'
     }
 
 	}

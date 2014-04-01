@@ -11,7 +11,7 @@ var fs = require('fs-extra');
 
 
 exports.generate = function(user, templateName, filePath, folder ,callback){
-	sails.log.info('Generationg pdf for'+user.fullname+' of type '+ templateName);
+	sails.log.info('Generationg pdf for: '+user.fullname+' of type '+ templateName);
 
   PDFService.getTemplate(user, templateName, function(error, template){
     if(error) return callback(error, null);
@@ -33,7 +33,7 @@ exports.generate = function(user, templateName, filePath, folder ,callback){
       }, function (code, signal) {
         if(code) sails.log.info(code);
         if(signal) sails.log.info(signal);
-
+        console.log(code, signal);
         callback();
       });
     });
@@ -63,7 +63,6 @@ exports.getTemplate = function(user, templateName, callback){
       if(error) return callback(error, null);
 
       var bgFileUrl = sails.getBaseurl() + '/images/certificados/iv-mostra.jpg';
-      console.log(bgFileUrl);
       var code = ejs.render(content, {
         user: user,
         bgFileUrl: bgFileUrl

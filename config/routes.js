@@ -27,7 +27,8 @@ module.exports.routes = {
   //
   // (Alternatively, remove this and add an `index.html` file in your `assets` directory)
   '/': {
-    view: 'homepage'
+    controller: 'main',
+    action: 'index'
   },
 
 
@@ -35,6 +36,8 @@ module.exports.routes = {
     controller: 'certificado',
     action: 'buscarCertificados'
   },
+
+  // usuários
 
   'get /usuario/:cpf': {
     controller: 'user',
@@ -47,11 +50,52 @@ module.exports.routes = {
     action: 'download'
   }
 
-  // Custom routes here...
+  // AUTH
+  /*
+  ,
+
+  'get /login': {
+    controller    : 'auth',
+    action        : 'loginPage'
+  },
+
+  'post /login': {
+    controller    : 'auth',
+    action        : 'login'
+  },
+
+  '/users/logout': {
+    controller    : 'auth',
+    action        : 'logout'
+  },
 
 
-  // If a request to a URL doesn't match any of the custom routes above, it is matched
-  // against Sails route blueprints.  See `config/blueprints.js` for configuration options
-  // and examples.
+  'get /usuario/:cpf/mudar-senha': {
+    controller    : 'auth',
+    action        : 'changePaswordPage'
+  },
+
+  'post /usuario/:cpf/mudar-senha': {
+    controller    : 'auth',
+    action        : 'changePasword'
+  },
+
+  // data importer
+
+  'get /admin/data/importador': {
+    controller    : 'importer',
+    action        : 'index'
+  },
+
+  'get /admin/data/importador/upload-file': {
+    controller    : 'importer',
+    action        : 'uploadToImportPage'
+  },
+
+  'post /admin/data/importador/upload-file': {
+    controller    : 'importer',
+    action        : 'uploadToImport'
+  }
+  */
 
 };

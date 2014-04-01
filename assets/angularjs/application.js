@@ -20,4 +20,15 @@ controller('buscarCertificados', function($scope) {
 angular.bootstrap(document, ['certificator']);
 
 
+// BE HAppy
+$(document).ready(function() {
+  $('.nevar').click(function (e) {
+    $(document).snowfall({
+      flakeColor: '#178BC8',
+      minSize: 16,
+      image: '/images/white-snow-icon.png'
+    });
+  });
+});
+
 

@@ -30,7 +30,11 @@ exports.importAll = function(){
         runTo = runTo + dataObj.importProgress;
       }
 
-      ExcelService.importOneUserItem(dataObj.data[itemsCount], afteEachItem);
+      ExcelService.importOneUserItem(
+        dataObj.data[itemsCount],
+        dataObj.certificadoTipo,
+        afteEachItem
+      );
 
       function afteEachItem(){
         if( (itemsCount+1) >= dataObj.length){
@@ -50,7 +54,11 @@ exports.importAll = function(){
             dataObj.data[itemsCount].CPF = '10000001' + itemsCount;
           }
 
-          ExcelService.importOneUserItem(dataObj.data[itemsCount], afteEachItem);
+          ExcelService.importOneUserItem(
+            dataObj.data[itemsCount],
+            dataObj.certificadoTipo,
+            afteEachItem
+          );
 
         }else{
           sails.log.info('Import file: ' + dataObj.filename + ' is partialy done, requene.');
@@ -77,7 +85,7 @@ exports.importQueneNextImport = function(){
 }
 
 
-exports.importOneUserItem = function(data, callback){
+exports.importOneUserItem = function(data, certificadoTipo, callback){
 
  if(data && data.CPF){
 
@@ -90,7 +98,7 @@ exports.importOneUserItem = function(data, callback){
 
    var certificadosParticipante = {};
    certificadosParticipante.avaible = true;
-   certificadosParticipante.name = 'participante';
+   certificadosParticipante.name = certificadoTipo;
    certificadosParticipante.label = 'Certificado de Participante';
 
    user.certificados.push(certificadosParticipante);
@@ -214,13 +222,16 @@ exports.saveFileToImport = function(){
       files.forEach( function (file) {
         ExcelService.parse(filepath + file,function(err, data){
 
+          var splitFile = file.split(".");
+
           var importData = {};
           importData.length = data.length;
           importData.filename = file;
           importData.systemFilename = file;
-          importData.extension = 'xlsx';
+          importData.extension = splitFile[1];
           importData.data = data;
           importData.importToModel = 'User';
+          importData.certificadoTipo = splitFile[0];
 
           ImportData.create(importData).done(function(error, SalvedImportData){
             if(error) sails.log.error('Error on Excel service save importData:', error);

@@ -1,0 +1,63 @@
+ <div class="row">
+  <div class="col-md-12">
+    <% if(errorMessage){ %>
+      <div class="alert alert-dismissable alert-danger">
+        <%= errorMessage %>
+      </div>
+    <% }; %>
+  </div>
+</div>
+
+ <div class="row">
+  <div class="col-md-12">
+
+    <form name="changePaswordPage"  action="/admin/data/importador/upload-file" method="post" class="form-horizontal">
+      <fieldset>
+        <legend>Upload de arquivo para importar dados</legend>
+
+        <% if(certificadoTipos){ %>
+          <div class="form-group">
+            <label for="select" class="col-lg-2 control-label">
+            Tipo de certificado: </label>
+            <div class="col-lg-10">
+              <select class="form-control" id="select">
+                <% certificadoTipos.forEach(function(el, index) { %>
+                  <option><%= el %></option>
+                <% }); %>
+              </select>
+            </div>
+          </div>
+        <% }; %>
+
+        <div class="form-group">
+          <label for="file" class="col-lg-2 control-label">Arquivo</label>
+          <div class="col-lg-10">
+            <input name="file" type="file" class="form-control" id="file" placeholder="Arquivo">
+          </div>
+        </div>
+
+
+        <% if(models){ %>
+          <div class="form-group">
+            <label for="select" class="col-lg-2 control-label">Model:</label>
+            <div class="col-lg-10">
+              <select class="form-control" id="select">
+                <% models.forEach(function(el, index) { %>
+                  <option><%= el.name %></option>
+                <% }); %>
+              </select>
+            </div>
+          </div>
+        <% }; %>
+
+        <div class="form-group">
+          <div class="col-lg-10 col-lg-offset-2">
+            <button type="submit" class="btn btn-primary">Enviar</button>
+          </div>
+        </div>
+        <input type="hidden" name="_csrf" value="<%= _csrf %>" />
+      </fieldset>
+    </form>
+
+  </div>
+</div>

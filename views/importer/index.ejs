@@ -1,0 +1,42 @@
+ <div class="row">
+  <div class="col-md-12">
+  <a href="/admin/data/importador/upload-file" class="btn btn-primary">Importar de arquivo</a>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-12">
+    <h3>Importações</h3>
+    <div class="table-responsive">
+     <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Estado</th>
+            <th>Progresso</th>
+            <th>Nome do arquivo</th>
+            <th>Tipo de certificado</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% importers.forEach(function(importer){ %>
+            <tr class="<%= importer.status %>">
+              <td class="<%= importer.status %>"><%= importer.status %></td>
+              <td>
+                <%= importer.importProgress %> de <%= importer.length %>
+              </td>
+              <td><%= importer.filename %></td>
+
+              <% if(importer.certificadoTipo){ %>
+                <td><%= importer.certificadoTipo %></td>
+              <% }else{ %>
+                <td>participante</td>
+              <% } %>
+            </tr>
+          <% }); %>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+</div>
