@@ -26,7 +26,7 @@ module.exports.session = {
   // }
 
 
-  adapter: 'mongo',
+  //adapter: 'mongo',
   host: 'localhost',
   port: 27017,
   db: 'certificator',
