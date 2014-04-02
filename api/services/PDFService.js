@@ -27,13 +27,10 @@ exports.generate = function(user, templateName, filePath, folder ,callback){
         'margin-bottom': 0,
         'margin-left': 0,
         'margin-right': 0,
-        'margin-top': 0,
-        //'page-width': '500',
-        //'page-height' : '500'
+        'margin-top': 0
       }, function (code, signal) {
         if(code) sails.log.info(code);
         if(signal) sails.log.info(signal);
-        console.log(code, signal);
         callback();
       });
     });
@@ -62,7 +59,7 @@ exports.getTemplate = function(user, templateName, callback){
     fs.readFile(filePath, 'utf-8', function(error, content) {
       if(error) return callback(error, null);
 
-      var bgFileUrl = sails.getBaseurl() + '/images/certificados/iv-mostra.jpg';
+      var bgFileUrl = sails.getBaseurl() + '/images/certificados/ivmostra.jpg';
       var code = ejs.render(content, {
         user: user,
         bgFileUrl: bgFileUrl

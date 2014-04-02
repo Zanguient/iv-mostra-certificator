@@ -25,17 +25,6 @@ module.exports.session = {
   //   maxAge: 24 * 60 * 60 * 1000
   // }
 
-
-  //adapter: 'mongo',
-  host: 'localhost',
-  port: 27017,
-  db: 'certificator',
-  collection: 'sessions',
-  auto_reconnect: true,
-  cookie: {
-    originalMaxAge: 2592000000 // +-30 days
-  }
-
   // In production, uncomment the following lines to set up a shared redis session store
   // that can be shared across multiple Sails.js servers
   // adapter: 'redis',
