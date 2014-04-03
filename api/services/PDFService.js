@@ -78,6 +78,8 @@ exports.getTemplateCofigs = function(){
 
   avaibleTemplates.participante = {};
   avaibleTemplates.participante.filename = 'participante.ejs';
+  avaibleTemplates.relatoria = {};
+  avaibleTemplates.relatoria.filename = 'relatoria.ejs';
 
   return avaibleTemplates;
 }

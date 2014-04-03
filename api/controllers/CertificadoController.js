@@ -7,6 +7,44 @@
 var fs = require('fs-extra');
 
 module.exports = {
+  show: function(req, res){
+    var user = {};
+    user.cpf = req.param("cpf");
+
+    if(user.cpf){
+      User.findOneByCpf(user.cpf).done(function(err, userSalved){
+        if(err) return sails.log.error(err);
+
+        if(userSalved) {
+          var certificadosDisponiveis = [];
+
+          Certificado.findByUserId(userSalved.id).done(function(err, certificadoSalved){
+            if(err){
+              sails.log.error(err);
+              return userNotFound();
+            }
+            // convert object to array
+            res.view('user/show',{
+              user: userSalved,
+              certificados: certificadoSalved
+            });
+          });
+
+        }else{
+          userNotFound();
+        }
+      });
+    }else{
+      userNotFound()
+    }
+
+    function userNotFound(){
+      sails.log.error('User.show: O usuário não foi encontrado');
+      return res.badRequest('O usuário não foi encontrado');
+    }
+
+  },
+
   buscarCertificados: function(req, res){
     var user = {};
     user.cpf = req.param("cpf");

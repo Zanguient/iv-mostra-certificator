@@ -40,7 +40,7 @@ module.exports.routes = {
   // usuários
 
   'get /usuario/:cpf': {
-    controller: 'user',
+    controller: 'certificado',
     action: 'show'
   },
 

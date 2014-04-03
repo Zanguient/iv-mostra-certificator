@@ -20,11 +20,11 @@ module.exports = {
 			type: 'string',
       unique: true
 		},
-
+    originalCpf: {
+      type: 'string'
+    },
 		email: {
-			type: 'string',
-      required: true,
-      unique: true
+			type: 'string'
 		},
 
 		fullname: {
@@ -114,6 +114,14 @@ module.exports = {
 
   // Lifecycle Callbacks
   beforeCreate: function(user, next) {
+    if(user.cpf){
+      // save original cpf
+      user.originalCpf = user.cpf;
+      // remove accents and trash from cpf
+      user.cpf = user.cpf.replace(/[A-Za-z$-.\/\\\[\]=_@!#^<>;"]/g, "");
+    }
+
+
   	if(!user.password){
 			return next();
   	}

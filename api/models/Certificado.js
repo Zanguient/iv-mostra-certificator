@@ -18,9 +18,7 @@ module.exports = {
     },
 
     cpf: {
-      type: 'integer',
-      required: true,
-      unique: true
+      type: 'integer'
     },
 
     email: {
@@ -28,6 +26,10 @@ module.exports = {
     },
 
     username: {
+      type: 'string'
+    },
+
+    userId: {
       type: 'string'
     }
 

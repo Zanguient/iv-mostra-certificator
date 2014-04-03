@@ -8,6 +8,8 @@
 <div class="row">
   <div class="col-md-12">
     <div class="table-responsive">
+
+    <% if(certificados){ %>
      <table class="table table-striped">
         <thead>
           <tr>
@@ -16,11 +18,11 @@
           </tr>
         </thead>
         <tbody>
-          <% user.certificados.forEach(function(certificado){ %>
+          <% certificados.forEach(function(certificado){ %>
             <tr>
               <td><%= certificado.label %></td>
               <td>
-                <a href="/usuario/<%= user.cpf %>/certificados/<%= certificado.name %>.pdf">
+                <a href="/usuario/<%= user.cpf %>/certificados/<%= certificado.type %>.pdf">
                   <span class="glyphicon glyphicon-download"></span> Baixar: <%= certificado.label %>
                 </a>
               </td>
@@ -28,6 +30,12 @@
           <% }); %>
         </tbody>
       </table>
+    <% } else { %>
+      <p>
+        Nenhum certificado disponível neste sistema.
+      </p>
+    <% } %>
+
     </div>
 
   </div>
