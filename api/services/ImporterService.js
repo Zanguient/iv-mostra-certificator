@@ -244,7 +244,7 @@ exports.importOneCertificadoItem = function(data, certificadoTipo, callback){
 
   } else {
     //CPF dont found
-    callback('O cpf é nescessário para a criação do certificado item: '+data , null);
+    callback('O cpf é nescessário para a criação do certificado item: '+data.cpf , null);
   }
 }
 
