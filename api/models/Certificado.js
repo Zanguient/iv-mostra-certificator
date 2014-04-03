@@ -8,7 +8,28 @@
 module.exports = {
 
 	attributes: {
+    avaible: {
+      type: 'boolean',
+      defaultsTo: true
+    },
+    // user name to add
+    type: {
+      type: 'string'
+    },
 
+    cpf: {
+      type: 'integer',
+      required: true,
+      unique: true
+    },
+
+    email: {
+      type: 'string'
+    },
+
+    username: {
+      type: 'string'
+    }
 
 	}
 

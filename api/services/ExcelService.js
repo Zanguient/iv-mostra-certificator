@@ -30,13 +30,15 @@ exports.importAll = function(){
         runTo = runTo + dataObj.importProgress;
       }
 
-      ExcelService.importOneUserItem(
+      ExcelService.importOneCertificadoItem(
         dataObj.data[itemsCount],
         dataObj.certificadoTipo,
         afteEachItem
       );
 
-      function afteEachItem(){
+      function afteEachItem(err, lastItem){
+        if(err) sails.log.error(err, ' - no item: ', lastItem);
+
         if( (itemsCount+1) >= dataObj.length){
           // done
           sails.log.info('Done! import on file: ', dataObj.filename);
@@ -49,12 +51,7 @@ exports.importAll = function(){
           itemsCount++;
           //console.log('next', dataObj.data[itemsCount]);
 
-          // set a random cpf for peaple how dont have
-          if(!dataObj.data[itemsCount].CPF){
-            dataObj.data[itemsCount].CPF = '10000001' + itemsCount;
-          }
-
-          ExcelService.importOneUserItem(
+          ExcelService.importOneCertificadoItem(
             dataObj.data[itemsCount],
             dataObj.certificadoTipo,
             afteEachItem
@@ -84,6 +81,43 @@ exports.importQueneNextImport = function(){
   setTimeout(ExcelService.importAll, timePerRum);
 }
 
+exports.importOneCertificadoItem = function(data, certificadoTipo, callback){
+
+  if(data && data.CPF){
+
+    var certificado = {};
+    certificado.avaible = true;
+    certificado.type = certificadoTipo;
+    certificado.label = 'Certificado de ' + certificadoTipo;
+    certificado.cpf = data.CPF.replace(/[A-Za-z$-.\/\\\[\]=_@!#^<>;"]/g, "");
+    certificado.email = data.Email;
+    certificado.username = data.Nome;
+
+    Certificado.findOneByCpf(certificado.cpf ).done(function(err, certificadoSalved){
+      if(err){
+        sails.log.error(err);
+        return callback(err, null);
+      }
+
+      if(certificadoSalved){
+          callback(null, certificadoSalved);
+      } else {
+        Certificado.create(certificado).done(function(err, certificadoSalved){
+          if(err){
+            sails.log.error(err);
+            return callback(err, null);
+          }
+          callback(null, certificadoSalved);
+        });
+      }
+    });
+
+
+  } else {
+    //CPF dont found
+    callback('O cpf é nescessário para a criação do certificado', null);
+  }
+}
 
 exports.importOneUserItem = function(data, certificadoTipo, callback){
 
@@ -96,12 +130,12 @@ exports.importOneUserItem = function(data, certificadoTipo, callback){
    user.fullname = data.Nome;
    user.certificados = [];
 
-   var certificadosParticipante = {};
-   certificadosParticipante.avaible = true;
-   certificadosParticipante.name = certificadoTipo;
-   certificadosParticipante.label = 'Certificado de Participante';
+   var certificados = {};
+   certificados.avaible = true;
+   certificados.name = certificadoTipo;
+   certificados.label = 'Certificado de ' + certificadoTipo;
 
-   user.certificados.push(certificadosParticipante);
+   user.certificados.push(certificados);
 
    User.findOneByCpf(user.cpf).done(function(err, userSalved){
      if(err) return sails.log.error(err);
@@ -109,19 +143,38 @@ exports.importOneUserItem = function(data, certificadoTipo, callback){
      if(userSalved){
 
         if(!userSalved.certificados){
-          userSalved.certificados = {};
-        }
-
-        if(!userSalved.certificados){
           userSalved.certificados = [];
         }
 
-        userSalved.certificados.push(certificadosParticipante);
+        var addCertificado = true;
 
+        var i = 1;
+        userSalved.certificados.every(function(e) {
 
-        userSalved.save();
-        callback();
+          // já tem o certificado na conta do usuário então não faz nada
+          if(certificados.name == certificadoTipo){
+            doneLoop();
+            return false;
+          }
 
+          // se chegar no ultimo item do array e não tiver o certificado na conta então
+          // adiciona o certificado para o usuário
+          console.log('i: ',i,userSalved.certificados.length);
+          if(i >= userSalved.certificados.length){
+            userSalved.certificados.push(certificadosParticipante);
+            userSalved.save(function(err){
+              callback();
+            });
+          }
+
+          i++;
+          // continue
+          return true;
+        });
+
+        function doneLoop(){
+
+        }
      }else{
        User.create(user).done(function(error, newUser){
         if(error) sails.log.error('Error on Excel srevice create user:',user , error);
