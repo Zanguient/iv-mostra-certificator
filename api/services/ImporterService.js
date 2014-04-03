@@ -45,6 +45,9 @@ exports.importAll = function(){
           dataObj.importProgress = dataObj.length;
           dataObj.save();
 
+          // requene for check imports
+          ImporterService.importQueneLogTimeFotCheckImports();
+
         }else if(itemsCount <= runTo){
           itemsCount++;
           //console.log('next', dataObj.data[itemsCount]);
@@ -193,6 +196,10 @@ exports.archiveFile = function(importData, callback){
 
 exports.importQueneNextImport = function(){
   setTimeout(ImporterService.importAll, timePerRum);
+}
+
+exports.importQueneLogTimeFotCheckImports = function(){
+  setTimeout(ImporterService.importAll, restartTime);
 }
 
 exports.importOneCertificadoItem = function(data, certificadoTipo, callback){
