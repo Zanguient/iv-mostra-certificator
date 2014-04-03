@@ -12,39 +12,40 @@ function DataStub () {
 }
 
 describe('ImporterService', function() {
-  // JSON REQUESTS //
-  describe('JSON Requests', function() {
-    describe('GET', function() {
-      it('Should save one Certificado with .importOneCertificadoItem and valid data',function(done){
+  describe('Save data', function() {
+    it('Should save one Certificado with .importOneCertificadoItem and valid data',function(done){
 
-        var data = DataStub();
-        ExcelService.importOneCertificadoItem(data, data.type, function(err, dataSalved){
-          if(err) {
-            console.error(err);
-            return done(err);
+      var data = DataStub();
+      ImporterService.importOneCertificadoItem(data, data.type, function(err, dataSalved){
+        if(err) {
+          console.error(err);
+          return done(err);
+        }
+
+        Certificado.findOneByCpf(dataSalved.cpf).done(function(err, certificadoSalved){
+          if(err){
+            sails.log.error(err);
+            return done(err, null);
           }
 
-          Certificado.findOneByCpf(dataSalved.cpf).done(function(err, certificadoSalved){
-            if(err){
-              sails.log.error(err);
-              return done(err, null);
-            }
+          should.exist(certificadoSalved.cpf);
+          should.exist(certificadoSalved.type);
+          should.exist(certificadoSalved.id);
+          certificadoSalved.email.should.equal(data.Email);
 
-            should.exist(certificadoSalved.cpf);
-            should.exist(certificadoSalved.type);
-            should.exist(certificadoSalved.id);
-            certificadoSalved.email.should.equal(data.Email);
-
-            done();
-          });
-
-
+          done();
         });
+
 
       });
 
     });
 
-  }); // end requests
+  });
+
+  describe('Upload file', function() {
+    it('Should upload one file');
+    it('Should register one importerData from file');
+  });
 
 });

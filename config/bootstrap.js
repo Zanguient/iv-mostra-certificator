@@ -15,9 +15,9 @@ module.exports.bootstrap = function (cb) {
 	//console.log(filepath);
  	//ExcelService.parse(filepath);
 
-  setTimeout(ExcelService.importAll, 5000);
+  setTimeout(ImporterService.importAll, 5000);
 
-  setTimeout(ExcelService.saveFileToImport, 3000);
+  setTimeout(ImporterService.saveFileToImport, 3000);
 
 
   // It's very important to trigger this callack method when you are finished

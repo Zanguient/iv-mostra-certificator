@@ -12,22 +12,35 @@ SALT_WORK_FACTOR = 10;
 module.exports = {
 
 	attributes: {
+    username: {
+      type: 'string'
+    },
+
 		cpf: {
 			type: 'string',
-      required: true,
       unique: true
 		},
 
 		email: {
-			type: 'string'
+			type: 'string',
+      required: true,
+      unique: true
 		},
 
 		fullname: {
 			type: 'string'
 		},
 
-    password: {
+    birthDate: {
+      type: 'date'
+    },
+
+    avatarId: {
       type: 'STRING'
+    },
+
+    password: {
+      type: 'string'
     },
 
     active: {
@@ -36,6 +49,11 @@ module.exports = {
     },
 
     isAdmin: {
+      type: 'boolean',
+      defaultsTo: false
+    },
+
+    isModerator: {
       type: 'boolean',
       defaultsTo: false
     },

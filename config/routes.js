@@ -51,9 +51,8 @@ module.exports.routes = {
   }
 
   // AUTH
-  /*
-  ,
 
+  ,
   'get /login': {
     controller    : 'auth',
     action        : 'loginPage'
@@ -64,19 +63,19 @@ module.exports.routes = {
     action        : 'login'
   },
 
-  '/users/logout': {
+  '/logout': {
     controller    : 'auth',
     action        : 'logout'
   },
 
 
   'get /usuario/:cpf/mudar-senha': {
-    controller    : 'auth',
+    controller    : 'user',
     action        : 'changePaswordPage'
   },
 
   'post /usuario/:cpf/mudar-senha': {
-    controller    : 'auth',
+    controller    : 'user',
     action        : 'changePasword'
   },
 
@@ -96,6 +95,6 @@ module.exports.routes = {
     controller    : 'importer',
     action        : 'uploadToImport'
   }
-  */
+
 
 };
