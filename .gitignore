@@ -119,3 +119,9 @@ npm-debug.log
 .netbeans
 nbproject
 .idea
+
+
+*.pdf
+*.xlsx
+*.xls
+*.csv
