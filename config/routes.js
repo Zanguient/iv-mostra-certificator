@@ -79,6 +79,33 @@ module.exports.routes = {
     action        : 'changePasword'
   },
 
+
+  // form to get one time login email
+  'get /auth/recuperar-senha': {
+    controller    : 'auth',
+    action        : 'forgotPasswordForm'
+  },
+
+  'post /auth/recuperar-senha': {
+    controller    : 'auth',
+    action        : 'forgotPassword'
+  },
+
+  'get /auth/:id/recuperar-senha/:token': {
+    controller    : 'auth',
+    action        : 'changePasswordWithTokenForm'
+  },
+
+  'get /auth/:id/activate/:token': {
+    controller: 'auth',
+    action: 'activate'
+  },
+
+  'post /auth/:id/password/send-token': {
+    controller: 'auth',
+    action: 'SendPasswordResetToken'
+  },
+
   // data importer
 
   'get /admin/data/importador': {

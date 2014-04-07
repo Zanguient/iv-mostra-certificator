@@ -182,10 +182,6 @@ module.exports = {
     }
   },
 
-  forgotPasswordForm: function (req, res, next) {
-    res.view();
-  },
-
   changePaswordPage: function (req, res) {
     var user = {};
     var cpf = req.param("cpf");

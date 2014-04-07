@@ -87,6 +87,247 @@ module.exports = {
               }
           }
       });
+  },
+
+  // get
+  forgotPasswordForm: function (req, res, next) {
+    res.view('auth/page_auth_forgot_password',{
+      errorMessage: null
+    });
+  },
+
+  // post
+  forgotPassword: function (req, res, next) {
+
+    var email = req.param("email");
+
+    if(email){
+      User.findOneByEmail(email).done(function(err, user){
+        if(err){
+          sails.log.error('AuthController.forgotPassword: ', err);
+          return next(err);
+        }
+        if(!user){
+          return userNotFount();
+        }
+
+        AuthToken.create( {user_id: user.id} ).done(function(error, token) {
+
+          var passwordResetLink = req.baseUrl + '/auth/'+ user.id + '/recuperar-senha/' + token.token;
+          EmailService.sendPasswordResetTokenEmail(user, passwordResetLink, req.baseUrl , function(err, responseStatus){
+            if(err) return next(err);
+
+
+            res.view('auth/page_auth_forgot_password',{
+              errorMessage: null,
+
+            });
+          });
+        });
+      });
+
+    }else{
+      userNotFount();
+    }
+
+    function userNotFount(){
+      return res.view('auth/page_auth_forgot_password',{
+        errorMessage: 'É nescessário informar um email válido',
+      });
+    }
+  },
+
+  // get
+  changePasswordWithTokenForm: function(req, res, next){
+
+    var id = req.param("id");
+    var token = req.param("token");
+
+    if(!token || !id){
+      return res.redirect('/auth/recuperar-senha');
+    }
+
+    validAuthToken(id, token, function(err, result, authToken){
+      if (err) {
+        return res.send(500, { error: res.i18n("Error") });
+      }
+
+      if(result != true){
+        return res.redirect('/auth/recuperar-senha');
+      }
+
+      User.findOneById(id).done(function(err, user){
+        if(err){
+          sails.log.error('AuthController.changePasswordWithTokenForm: ', err);
+          return next(err);
+        }
+
+        if(!user){
+          sails.log.error('AuthController.changePasswordWithTokenForm: User not found with id: ', id);
+          return next();
+        }
+
+        req.logIn(user, function(err){
+          if(err){
+            sails.log.error(err);
+            return next();
+          }
+
+          res.view('auth/page_auth_recovery_password',{
+            errorMessage: null,
+            user: user
+          });
+
+        });
+      });
+    });
+  },
+
+  // post
+  changePasswordWithToken: function(req, res, next){
+
+  },
+
+
+  /**
+   * Activate a user account with activation code
+   */
+  activate: function(req, res){
+    console.log('Check token');
+    console.log('activate Account');
+    user = {};
+    user.id = req.param('id');
+
+    token = req.param('token');
+
+    console.log('user.id:', user.id);
+    console.log('AuthToken:',token);
+
+    var responseForbiden = function (){
+      return res.send(403, {
+        responseMessage: {
+          errors: [
+            {
+              type: 'authentication',
+              message: res.i18n("Forbiden")
+            }
+          ]
+        }
+      });
+    };
+
+    var validAuthTokenRespose = function (err, result, authToken){
+      if (err) {
+        return res.send(500, { error: res.i18n("Error") });
+      }
+
+      // token is invalid
+      if(!result){
+        return responseForbiden();
+      }
+
+      console.log(result);
+
+      // token is valid then get user form db
+      Users.findOneById(user.id).done(function(err, usr) {
+        if (err) {
+          return res.send(500, { error: res.i18n("DB Error") });
+        }
+
+        // user found
+        if ( usr ) {
+
+          // activate user and login
+          usr.active = true;
+          usr.save(function(err){
+            if (err) {
+              return res.send(500, { error: res.i18n("DB Error") });
+            }
+
+            // destroy auth token after use
+            authToken.destroy(function(err) {
+              if (err) {
+                return res.send(500, { error: res.i18n("DB Error") });
+              }
+
+              req.logIn(usr, function(err){
+                if(err) return next(err);
+
+                return res.format({
+                 'text/html': function(){
+                    // TODO add a activation message
+                    //res.view( 'home/index.ejs');
+                    //res.redirect('/user/:id/activation-success');
+                    res.redirect('/');
+                 },
+
+                 'application/json': function(){
+                    console.log('send result here ....');
+                    res.send(200, usr);
+                 }
+                });
+              });
+
+            });
+
+          });
+
+        } else {
+          // user not found
+          return responseForbiden();
+        }
+
+      });
+
+
+    };
+
+    validAuthToken(user.id, token, validAuthTokenRespose);
+  },
+
+  SendPasswordResetToken: function(req, res, next){
+    console.log('TODO GetloginResetToken');
+    return next();
   }
 
+};
+
+
+/**
+ * Check if a auth token is valid
+ * TODO move thius function to AuthToken model
+ */
+var validAuthToken = function (userId, token, cb) {
+
+  // then get user token form db
+  AuthToken.findOneByToken(token).done(function(err, authToken) {
+    if (err) {
+      return cb(res.i18n("DB Error"), null);
+    }
+
+    console.log(authToken);
+    // auth token found then check if is valid
+    if(authToken){
+
+      // user id how wons the auth token is invalid then return false
+      if(authToken.user_id != userId){
+        return cb(null, false,{
+          result: 'invalid',
+          message: 'Token does not belong to this user'
+        });
+      }
+
+      // TODO check token expiration time
+      //
+      //
+
+      // authToken is valid
+      return cb(null, true, authToken);
+
+    } else {
+      // auth token not fount
+      return responseForbiden();
+    }
+
+  });
 };
