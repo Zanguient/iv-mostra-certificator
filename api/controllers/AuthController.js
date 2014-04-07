@@ -112,6 +112,10 @@ module.exports = {
         }
 
         AuthToken.create( {user_id: user.id} ).done(function(error, token) {
+        if(error){
+          sails.log.error(error);
+          return res.serverError(error);
+        }
 
           var passwordResetLink = req.baseUrl + '/auth/'+ user.id + '/recuperar-senha/' + token.token;
           EmailService.sendPasswordResetTokenEmail(user, passwordResetLink, req.baseUrl , function(err, responseStatus){
@@ -226,8 +230,6 @@ module.exports = {
         return responseForbiden();
       }
 
-      console.log(result);
-
       // token is valid then get user form db
       Users.findOneById(user.id).done(function(err, usr) {
         if (err) {
@@ -276,10 +278,7 @@ module.exports = {
           // user not found
           return responseForbiden();
         }
-
       });
-
-
     };
 
     validAuthToken(user.id, token, validAuthTokenRespose);
