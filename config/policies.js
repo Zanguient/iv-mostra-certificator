@@ -16,7 +16,7 @@ module.exports.policies = {
 
   // Default policy for all controllers and actions
   // (`true` allows public access)
-  '*': true,
+  '*': ['systemMessagesMiddleware',true],
 
   'user': 'AdminAreaPolicy',
   'certificado': 'CertificadoPolicy',

@@ -31,6 +31,10 @@ module.exports.routes = {
     action: 'index'
   },
 
+  'get /buscar-certificados' : {
+    controller: 'certificado',
+    action: 'buscarCertificados'
+  },
 
   'post /buscar-certificados' : {
     controller: 'certificado',
