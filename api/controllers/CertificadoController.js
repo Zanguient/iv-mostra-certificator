@@ -40,7 +40,9 @@ module.exports = {
 
     function userNotFound(){
       sails.log.error('User.show: O usuário não foi encontrado');
-      return res.badRequest('O usuário não foi encontrado');
+      req.flash('error', 'O usuário não foi encontrado');
+      return res.redirect('/');
+
     }
 
   },

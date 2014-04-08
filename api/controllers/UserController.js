@@ -10,7 +10,6 @@ var fs = require('fs');
 
 module.exports = {
 
-
   index: function (req, res) {
 
     User.find({})
@@ -274,8 +273,10 @@ module.exports = {
     });
 
     function userNotFound(){
-      sails.log.error('User.show: O usuário não foi encontrado');
-      return res.badRequest('O usuário não foi encontrado');
+      sails.log.error('User.changePasword: O usuário não foi encontrado');
+      req.flash('error', 'O usuário não foi encontrado');
+      return res.redirect('/');
+
     }
   }
 };
