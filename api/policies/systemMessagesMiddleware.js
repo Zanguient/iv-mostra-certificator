@@ -6,7 +6,7 @@
  *
  */
 module.exports = function(req, res, next) {
-  console.log('no message middleware');
+
   var success = req.flash('success');
   var info = req.flash('info');
   var warning = req.flash('warning');
