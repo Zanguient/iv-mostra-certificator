@@ -72,7 +72,7 @@ module.exports = {
 
     function userNotFound(){
       req.flash('error', 'O usuário não foi encontrado');
-      sails.log.error('buscarCertificados: O usuário não foi encontrado');
+      sails.log.error('buscarCertificados: O usuário não foi encontrado com o cpf: ', user.cpf);
       return res.redirect('/');
 
     }
@@ -120,7 +120,7 @@ module.exports = {
     }
 
     function notFound(){
-      sails.log.error('Certificado.download: O certificado ou usuário não foi encontrado');
+      sails.log.error('Certificado.download: O certificado ou usuário não foi encontrado', cpf, certificadoNome);
 
       req.flash('error', 'O certificado ou usuário não foi encontrado');
 

@@ -18,9 +18,9 @@ module.exports.policies = {
   // (`true` allows public access)
   '*': ['systemMessagesMiddleware',true],
 
-  'user': 'AdminAreaPolicy',
-  'certificado': 'CertificadoPolicy',
-  'importer': 'AdminAreaPolicy'
+  'user': ['systemMessagesMiddleware','AdminAreaPolicy'],
+  'certificado': ['systemMessagesMiddleware','CertificadoPolicy'],
+  'importer': ['systemMessagesMiddleware','AdminAreaPolicy']
 
 
   /*
