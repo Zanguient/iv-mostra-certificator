@@ -71,8 +71,8 @@ module.exports = {
     }
 
     function userNotFound(){
-      req.flash('error', 'O usuário não foi encontrado');
-      sails.log.error('buscarCertificados: O usuário não foi encontrado com o cpf: ', user.cpf);
+      req.flash('error', 'Não temos certificados disponíveis para o CPF do usuário informado no sistema');
+      sails.log.error('buscarCertificados: Não temos certificados disponíveis para o CPF do usuário informado no sistema: ', user.cpf);
       return res.redirect('/');
 
     }
