@@ -21,15 +21,19 @@ module.exports = {
       type: 'integer'
     },
 
+    data: {
+      type: 'json'
+    },
+
     email: {
       type: 'string'
     },
 
-    username: {
+    userId: {
       type: 'string'
     },
 
-    userId: {
+    importerDataId: {
       type: 'string'
     }
 

@@ -18,7 +18,7 @@ module.exports = {
         if(userSalved) {
           var certificadosDisponiveis = [];
 
-          Certificado.findByUserId(userSalved.id).done(function(err, certificadoSalved){
+          Certificado.findByUserId(userSalved.id).done(function(err, certificados){
             if(err){
               sails.log.error(err);
               return userNotFound();
@@ -26,7 +26,7 @@ module.exports = {
             // convert object to array
             res.view('user/show',{
               user: userSalved,
-              certificados: certificadoSalved
+              certificados: certificados
             });
           });
 
@@ -84,13 +84,18 @@ module.exports = {
     var cpf = req.param("cpf");
     var certificadoNome = req.param("nome");
 
-    if(cpf && certificadoNome){
+    var id = req.param("id")
+
+    if(cpf && id){
       User.findOneByCpf(cpf).done(function(err, user){
-        if(err) return sails.log.error(err);
+        if(err){
+          sails.log.error(err);
+          return notFound();
+        }
 
         if(user){
           var fileFolder = 'arquivos/certificados/'+ user.cpf +'/';
-          var fileName = certificadoNome + '.pdf';
+          var fileName = id + '.pdf';
           var filePath =  fileFolder + fileName;
 
           // Check if file exists
@@ -99,8 +104,12 @@ module.exports = {
               sendDownload(filePath, user.cpf + '-' + fileName);
             }else{
               // if file dont exists generate it
-              PDFService.generate(user, certificadoNome, filePath,fileFolder, function(error){
-                if(error) return sails.log.error(error);
+              PDFService.generate(user, id, filePath,fileFolder, function(error){
+                if(error){
+                  sails.log.error(error);
+                  return notFound();
+                }
+
                 sendDownload(filePath,fileName);
               });
             }
@@ -126,7 +135,5 @@ module.exports = {
 
       return res.redirect('/');
     }
-
-
   }
 };

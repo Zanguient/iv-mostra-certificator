@@ -9,7 +9,7 @@
   <div class="col-md-12">
     <div class="table-responsive">
 
-    <% if(certificados){ %>
+    <% if(certificados && certificados.length){ %>
      <table class="table table-striped">
         <thead>
           <tr>
@@ -20,9 +20,16 @@
         <tbody>
           <% certificados.forEach(function(certificado){ %>
             <tr>
-              <td><%= certificado.label %></td>
               <td>
-                <a href="/usuario/<%= user.cpf %>/certificados/<%= certificado.type %>.pdf">
+                <%= certificado.label %><br>
+
+                <% if(certificado.data && certificado.data.titulo){ %>
+                  Titulo: <strong><%= certificado.data.titulo %></strong>
+                <% } %>
+
+              </td>
+              <td>
+                <a href="/usuario/<%= user.cpf %>/certificados/<%= certificado.id %>.pdf">
                   <span class="glyphicon glyphicon-download"></span> Baixar: <%= certificado.label %>
                 </a>
               </td>

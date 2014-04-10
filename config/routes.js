@@ -49,7 +49,7 @@ module.exports.routes = {
   },
 
   // download one certificado
-  'get /usuario/:cpf/certificados/:nome.pdf': {
+  'get /usuario/:cpf/certificados/:id.pdf': {
     controller: 'certificado',
     action: 'download'
   }

@@ -9,34 +9,47 @@ var wkhtmltopdf = require('wkhtmltopdf');
 var ejs = require('ejs');
 var fs = require('fs-extra');
 
+exports.generate = function(user, id, filePath, folder ,callback){
 
-exports.generate = function(user, templateName, filePath, folder ,callback){
-	sails.log.info('Generationg pdf for: '+user.fullname+' of type '+ templateName);
+	sails.log.info('Gerando o pdf para: '+user.cpf+' com o certificado de id: '+ id);
 
-  PDFService.getTemplate(user, templateName, function(error, template){
-    if(error) return callback(error, null);
+  Certificado.findOneById(id).done(function(err, certificado){
+    if(err){
+      sails.log.error(err);
+      return callback(err, null);
+    }
 
-    // affter check if the folder exists
-    fs.mkdirp(folder, function(err){
-      if (err) return console.error(err);
-      wkhtmltopdf(template, {
-        output: filePath,
-        pageSize: 'A4',
-        encoding: 'utf-8',
-        orientation: 'Landscape',
-        'margin-bottom': 0,
-        'margin-left': 0,
-        'margin-right': 0,
-        'margin-top': 0
-      }, function (code, signal) {
-        if(code) sails.log.info(code);
-        if(signal) sails.log.info(signal);
-        callback();
+    if(certificado){
+
+      PDFService.getTemplate( certificado.data, certificado.type, function(error, template){
+        if(error) return callback(error, null);
+
+        // affter check if the folder exists
+        fs.mkdirp(folder, function(err){
+          if (err) return console.error(err);
+          wkhtmltopdf(template, {
+            output: filePath,
+            pageSize: 'A4',
+            encoding: 'utf-8',
+            orientation: 'Landscape',
+            'margin-bottom': 0,
+            'margin-left': 0,
+            'margin-right': 0,
+            'margin-top': 0
+          }, function (code, signal) {
+            if(code) sails.log.info(code);
+            if(signal) sails.log.info(signal);
+            callback();
+          });
+        });
+
       });
-    });
+
+    } else {
+      // TODO
+    }
 
   });
-
 
 }
 
@@ -47,7 +60,7 @@ exports.get = function(callback){
 
 }
 
-exports.getTemplate = function(user, templateName, callback){
+exports.getTemplate = function(data, templateName, callback){
 
   var avaibleTemplates = PDFService.getTemplateCofigs();
 
@@ -61,7 +74,7 @@ exports.getTemplate = function(user, templateName, callback){
 
       var bgFileUrl = sails.getBaseurl() + '/images/certificados/ivmostra.jpg';
       var code = ejs.render(content, {
-        user: user,
+        data: data,
         bgFileUrl: bgFileUrl
       });
 
@@ -80,6 +93,12 @@ exports.getTemplateCofigs = function(){
   avaibleTemplates.participante.filename = 'participante.ejs';
   avaibleTemplates.relatoria = {};
   avaibleTemplates.relatoria.filename = 'relatoria.ejs';
+
+  avaibleTemplates.relatoapresentadonacp = {};
+  avaibleTemplates.relatoapresentadonacp.filename = 'relatoapresentadonacp.ejs';
+
+  avaibleTemplates.relatopremiado = {};
+  avaibleTemplates.relatopremiado.filename = 'relatopremiado.ejs';
 
   return avaibleTemplates;
 }

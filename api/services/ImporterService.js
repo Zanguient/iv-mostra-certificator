@@ -8,7 +8,7 @@ var uuid = require('node-uuid');
 var itemsPerRum = 1000;
 var timePerRum = 3 * 1000;
 
-var restartTime = (20 * 60) * 1000;
+var restartTime = (15 * 60) * 1000;
 
 
 
@@ -50,7 +50,6 @@ exports.importAll = function(){
 
         }else if(itemsCount <= runTo){
           itemsCount++;
-          //console.log('next', dataObj.data[itemsCount]);
 
           ImporterService.importOneCertificadoItem(
             dataObj.data[itemsCount],
@@ -225,10 +224,16 @@ exports.importOneCertificadoItem = function(data, certificadoTipo, callback){
           certificado.avaible = true;
           certificado.type = certificadoTipo;
           certificado.label = 'Certificado de ' + certificadoTipo;
+
           certificado.cpf = user.cpf;
-          certificado.email = data.email;
-          certificado.username = data.nome;
+
+          if(data.email){
+            certificado.email = data.email;
+          }
+
           certificado.userId = user.id;
+
+          certificado.data = data;
 
           Certificado.create(certificado).done(function(err, certificadoSalved){
             if(err){
