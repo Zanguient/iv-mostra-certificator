@@ -112,13 +112,31 @@ module.exports = {
 
 	},
 
+  normalizeCpf: function(cpf){
+
+   var cleanCpf = cpf.replace(/[A-Za-z$-.\/\\\[\]=_@!#^<>;"]/g, "");
+
+   if(cleanCpf.length < 11){
+
+     var cpf_length = cleanCpf.length;
+     var i = 11 - cleanCpf.length;
+
+     for (var i = 11 - cpf_length; i > 0; i--) {
+        cleanCpf = '0' + cleanCpf;
+     };
+   }
+
+    return cleanCpf;
+  },
+
+
   // Lifecycle Callbacks
   beforeCreate: function(user, next) {
     if(user.cpf){
       // save original cpf
       user.originalCpf = user.cpf;
       // remove accents and trash from cpf
-      user.cpf = user.cpf.replace(/[A-Za-z$-.\/\\\[\]=_@!#^<>;"]/g, "");
+      user.cpf = User.normalizeCpf(user.cpf);
     }
 
 

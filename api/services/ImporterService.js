@@ -8,7 +8,7 @@ var uuid = require('node-uuid');
 var itemsPerRum = 1000;
 var timePerRum = 3 * 1000;
 
-var restartTime = (15 * 60) * 1000;
+var restartTime = 4 * 1000;
 
 
 
@@ -204,45 +204,39 @@ exports.importQueneLogTimeFotCheckImports = function(){
 exports.importOneCertificadoItem = function(data, certificadoTipo, callback){
 
   if(data && data.cpf){
+
     ImporterService.importOneUserItem(data, function(err, user){
       if(err){
         sails.log.error(err);
         return callback(err, null);
       }
 
-      Certificado.findOneByCpf(user.cpf).done(function(err, certificadoSalved){
+      if(!user){
+        sails.log.error('usuário não encontrado', data, certificadoTipo);
+        return callback('usuário não encontrado', null);
+      }
+
+      var certificado = {};
+      certificado.avaible = true;
+      certificado.type = certificadoTipo;
+      certificado.label = 'Certificado de ' + certificadoTipo;
+
+      certificado.cpf = user.cpf;
+
+      if(data.email){
+        certificado.email = data.email;
+      }
+
+      certificado.userId = user.id;
+
+      certificado.data = data;
+
+      Certificado.create(certificado).done(function(err, certificadoSalved){
         if(err){
           sails.log.error(err);
           return callback(err, null);
         }
-
-        if(certificadoSalved){
-            callback(null, certificadoSalved);
-        } else {
-
-          var certificado = {};
-          certificado.avaible = true;
-          certificado.type = certificadoTipo;
-          certificado.label = 'Certificado de ' + certificadoTipo;
-
-          certificado.cpf = user.cpf;
-
-          if(data.email){
-            certificado.email = data.email;
-          }
-
-          certificado.userId = user.id;
-
-          certificado.data = data;
-
-          Certificado.create(certificado).done(function(err, certificadoSalved){
-            if(err){
-              sails.log.error(err);
-              return callback(err, null);
-            }
-            callback(null, certificadoSalved);
-          });
-        }
+        callback(null, certificadoSalved);
       });
 
     });
@@ -263,7 +257,7 @@ exports.importOneUserItem = function(data, callback){
    user.email = data.email;
    user.fullname = data.nome;
 
-   var cleanCpf = user.cpf.replace(/[A-Za-z$-.\/\\\[\]=_@!#^<>;"]/g, "");
+   var cleanCpf = User.normalizeCpf(user.cpf);
 
    User.findOneByCpf(cleanCpf).done(function(err, userSalved){
      if(err) return callback(err);
@@ -284,5 +278,4 @@ exports.importOneUserItem = function(data, callback){
     callback('CPF not found', null);
  }
 }
-
 

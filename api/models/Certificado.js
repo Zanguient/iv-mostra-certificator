@@ -18,7 +18,7 @@ module.exports = {
     },
 
     cpf: {
-      type: 'integer'
+      type: 'string'
     },
 
     data: {
