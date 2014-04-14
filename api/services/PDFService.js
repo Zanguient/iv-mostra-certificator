@@ -100,5 +100,8 @@ exports.getTemplateCofigs = function(){
   avaibleTemplates.relatopremiado = {};
   avaibleTemplates.relatopremiado.filename = 'relatopremiado.ejs';
 
+  avaibleTemplates.curadores = {};
+  avaibleTemplates.curadores.filename = 'curadores.ejs';
+
   return avaibleTemplates;
 }
