@@ -112,5 +112,10 @@ exports.getTemplateCofigs = function(){
   avaibleTemplates.minicurso = {};
   avaibleTemplates.minicurso.filename = 'minicurso.ejs';
 
+  avaibleTemplates.espacopics = {};
+  avaibleTemplates.espacopics.filename = 'espacopics.ejs';
+
+
+
   return avaibleTemplates;
 }
