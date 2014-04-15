@@ -91,6 +91,7 @@ exports.getTemplateCofigs = function(){
 
   avaibleTemplates.participante = {};
   avaibleTemplates.participante.filename = 'participante.ejs';
+
   avaibleTemplates.relatoria = {};
   avaibleTemplates.relatoria.filename = 'relatoria.ejs';
 
@@ -103,6 +104,9 @@ exports.getTemplateCofigs = function(){
   avaibleTemplates.curadores = {};
   avaibleTemplates.curadores.filename = 'curadores.ejs';
 
+  avaibleTemplates.coordenadorescuradoria = {};
+  avaibleTemplates.coordenadorescuradoria.filename = 'coordenadorescuradoria.ejs';
+
   //avaibleTemplates.acolhimento = {};
   //avaibleTemplates.acolhimento.filename = 'acolhimento.ejs';
 
@@ -114,8 +118,6 @@ exports.getTemplateCofigs = function(){
 
   avaibleTemplates.espacopics = {};
   avaibleTemplates.espacopics.filename = 'espacopics.ejs';
-
-
 
   return avaibleTemplates;
 }
