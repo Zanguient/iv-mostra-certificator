@@ -103,5 +103,14 @@ exports.getTemplateCofigs = function(){
   avaibleTemplates.curadores = {};
   avaibleTemplates.curadores.filename = 'curadores.ejs';
 
+  //avaibleTemplates.acolhimento = {};
+  //avaibleTemplates.acolhimento.filename = 'acolhimento.ejs';
+
+  avaibleTemplates.oficina = {};
+  avaibleTemplates.oficina.filename = 'oficina.ejs';
+
+  avaibleTemplates.minicurso = {};
+  avaibleTemplates.minicurso.filename = 'minicurso.ejs';
+
   return avaibleTemplates;
 }
