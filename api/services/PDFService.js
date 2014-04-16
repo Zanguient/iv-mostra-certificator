@@ -90,34 +90,52 @@ exports.getTemplateCofigs = function(){
   var avaibleTemplates = {};
 
   avaibleTemplates.participante = {};
+  avaibleTemplates.participante.label = 'participante';
   avaibleTemplates.participante.filename = 'participante.ejs';
 
   avaibleTemplates.relatoria = {};
+  avaibleTemplates.relatoria.label = 'vomissão de Relatoria';
   avaibleTemplates.relatoria.filename = 'relatoria.ejs';
 
   avaibleTemplates.relatoapresentadonacp = {};
+  avaibleTemplates.relatoapresentadonacp.label = 'relato apresentado na CP';
   avaibleTemplates.relatoapresentadonacp.filename = 'relatoapresentadonacp.ejs';
 
   avaibleTemplates.relatopremiado = {};
+  avaibleTemplates.relatopremiado.label = 'relato premiado';
   avaibleTemplates.relatopremiado.filename = 'relatopremiado.ejs';
 
   avaibleTemplates.curadores = {};
+  avaibleTemplates.curadores.label = 'curador';
   avaibleTemplates.curadores.filename = 'curadores.ejs';
 
   avaibleTemplates.coordenadorescuradoria = {};
+  avaibleTemplates.coordenadorescuradoria.label = 'coordenador de curadoria';
   avaibleTemplates.coordenadorescuradoria.filename = 'coordenadorescuradoria.ejs';
 
   //avaibleTemplates.acolhimento = {};
   //avaibleTemplates.acolhimento.filename = 'acolhimento.ejs';
 
   avaibleTemplates.oficina = {};
+  avaibleTemplates.oficina.label = 'oficina';
   avaibleTemplates.oficina.filename = 'oficina.ejs';
 
   avaibleTemplates.minicurso = {};
+  avaibleTemplates.minicurso.label = 'minicurso';
   avaibleTemplates.minicurso.filename = 'minicurso.ejs';
 
   avaibleTemplates.espacopics = {};
+  avaibleTemplates.espacopics.label = 'atendimento no Espaço Cuide com PICs';
   avaibleTemplates.espacopics.filename = 'espacopics.ejs';
 
   return avaibleTemplates;
+}
+
+exports.getTemplateLabel = function(templateName){
+  var avaibleTemplates = PDFService.getTemplateCofigs();
+
+  if(avaibleTemplates[templateName]){
+    return avaibleTemplates[templateName].label;
+  }
+  return false;
 }

@@ -21,7 +21,7 @@
           <% certificados.forEach(function(certificado){ %>
             <tr>
               <td>
-                <%= certificado.label %><br>
+                Certificado de <%= PDFService.getTemplateLabel(certificado.type) %><br>
 
                 <% if(certificado.data && certificado.data.titulo){ %>
                   Titulo: <strong><%= certificado.data.titulo %></strong>
@@ -30,7 +30,7 @@
               </td>
               <td>
                 <a href="/usuario/<%= user.cpf %>/certificados/<%= certificado.id %>.pdf">
-                  <span class="glyphicon glyphicon-download"></span> Baixar: <%= certificado.label %>
+                  <span class="glyphicon glyphicon-download"></span> Baixar: Certificado de <%= PDFService.getTemplateLabel(certificado.type) %>
                 </a>
               </td>
             </tr>
