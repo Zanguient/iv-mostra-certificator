@@ -128,6 +128,10 @@ exports.getTemplateCofigs = function(){
   avaibleTemplates.espacopics.label = 'atendimento no Espaço Cuide com PICs';
   avaibleTemplates.espacopics.filename = 'espacopics.ejs';
 
+  avaibleTemplates.coordenacaoatendimentosaecpics = {};
+  avaibleTemplates.coordenacaoatendimentosaecpics.label = 'coordenação dos atendimentos em Auriculopuntura no Espaço  Cuide com PICs';
+  avaibleTemplates.coordenacaoatendimentosaecpics.filename = 'coordenacaoatendimentosaecpics.ejs';
+
   return avaibleTemplates;
 }
 
