@@ -10,7 +10,7 @@
     <div class="table-responsive">
 
     <% if(certificados && certificados.length){ %>
-     <table class="table table-striped">
+     <table class="table table-striped table-hover">
         <thead>
           <tr>
             <th>Tipo de certificado</th>
@@ -21,16 +21,19 @@
           <% certificados.forEach(function(certificado){ %>
             <tr>
               <td>
-                Certificado de <%= PDFService.getTemplateLabel(certificado.type) %><br>
+                Certificado de <%= PDFService.getTemplateLabel(certificado.type) %>
 
                 <% if(certificado.data && certificado.data.titulo){ %>
-                  Titulo: <strong><%= certificado.data.titulo %></strong>
+                  <br>Titulo: <strong><%= certificado.data.titulo %></strong>
                 <% } %>
 
+                <% if(certificado.data && certificado.data.atividade && certificado.data.tipo_de_atividade){ %>
+                  <strong><%= certificado.data.atividade %></strong>
+                <% } %>
               </td>
               <td>
                 <a href="/usuario/<%= user.cpf %>/certificados/<%= certificado.id %>.pdf">
-                  <span class="glyphicon glyphicon-download"></span> Baixar: Certificado de <%= PDFService.getTemplateLabel(certificado.type) %>
+                  <span class="glyphicon glyphicon-download"></span> Baixar em PDF: Certificado de <%= PDFService.getTemplateLabel(certificado.type) %>
                 </a>
               </td>
             </tr>
