@@ -8,7 +8,7 @@ var uuid = require('node-uuid');
 var itemsPerRum = 1000;
 var timePerRum = 3 * 1000;
 
-var restartTime = (15 * 60) * 1000;
+var restartTime = 60 * 1000;
 
 exports.importAll = function(){
 
