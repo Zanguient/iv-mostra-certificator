@@ -136,6 +136,10 @@ exports.getTemplateCofigs = function(){
   avaibleTemplates.reuniao.label = 'reuniao';
   avaibleTemplates.reuniao.filename = 'reuniao.ejs';
 
+  avaibleTemplates.encontro = {};
+  avaibleTemplates.encontro.label = 'encontro';
+  avaibleTemplates.encontro.filename = 'encontro.ejs';
+
   return avaibleTemplates;
 }
 
