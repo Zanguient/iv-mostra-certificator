@@ -132,6 +132,10 @@ exports.getTemplateCofigs = function(){
   avaibleTemplates.coordenacaoatendimentosaecpics.label = 'coordenação dos atendimentos em Auriculopuntura no Espaço  Cuide com PICs';
   avaibleTemplates.coordenacaoatendimentosaecpics.filename = 'coordenacaoatendimentosaecpics.ejs';
 
+  avaibleTemplates.reuniao = {};
+  avaibleTemplates.reuniao.label = 'reuniao';
+  avaibleTemplates.reuniao.filename = 'reuniao.ejs';
+
   return avaibleTemplates;
 }
 
