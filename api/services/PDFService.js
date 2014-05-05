@@ -140,6 +140,10 @@ exports.getTemplateCofigs = function(){
   avaibleTemplates.encontro.label = 'encontro';
   avaibleTemplates.encontro.filename = 'encontro.ejs';
 
+  avaibleTemplates.acolhimento = {};
+  avaibleTemplates.acolhimento.label = 'acolhimento';
+  avaibleTemplates.acolhimento.filename = 'acolhimento.ejs';
+
   return avaibleTemplates;
 }
 
